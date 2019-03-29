@@ -3,8 +3,30 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "appName": {
-      "defaultValue": "sjkp-linux",
       "type": "string"
+    },
+    "databaseDriver": {
+      "defaultValue": "pdo_mysql",
+      "allowedValues": [
+        "pdo_mysql",
+        "pdo_pgsql"
+      ],
+      "type": "string"
+    },
+    "databaseHost": {
+      "defaultValue": "127.0.0.1",
+      "type": "string"
+    },
+    "databasePort": {
+      "defaultValue": 3306,
+      "type": "int"
+    },
+    "databaseUser": {
+      "defaultValue": "root",
+      "type": "string"
+    },
+    "databasePassword": {
+      "type": "securestring"
     }
   },
   "variables": {
@@ -17,7 +39,7 @@
       "apiVersion": "2016-03-01",
       "location": "[resourceGroup().location]",
       "sku": {
-        "name": "S1",
+        "name": "B1",
         "capacity": 1
       },
       "kind": "linux",
@@ -41,7 +63,7 @@
       ],
       "resources": [
         {
-          "name": "containerSettings",
+          "name": "appsettings",
           "type": "config",
           "apiVersion": "2016-03-01",
           "dependsOn": [
@@ -51,7 +73,14 @@
             "displayName": "appSettings"
           },
           "properties": {
-            "DOCKER_CUSTOM_IMAGE_NAME": "nginx"
+            "DOCKER_CUSTOM_IMAGE_NAME": "inri13666/azure-php-base:latest",
+            "SYMFONY_DATABASE_DRIVER": "parameters('databaseDriver')",
+            "SYMFONY_DATABASE_HOST": "parameters('databaseHost')",
+            "SYMFONY_DATABASE_PORT": "parameters('databasePort')",
+            "SYMFONY_DATABASE_NAME": "parameters('database_name')",
+            "SYMFONY_DATABASE_USER": "parameters('databaseUser')",
+            "SYMFONY_DATABASE_PASSWORD": "parameters('databasePassword')",
+            "WEBSITES_ENABLE_APP_SERVICE_STORAGE": true
           }
         }
       ]
