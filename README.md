@@ -7,3 +7,6 @@ XXXX
 
 <!-- Make sure to URI encode the template file location! -->
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fnoelbundick%2Farm-samples%2Fmaster%2F1-storageaccount%2Ftemplate.json">Deploy to Azure</a>
+
+
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Finri13666%2Fdeploy-to-azure%2Fmaster%2Fazuredeploy.json">Deploy to Azure</a>

@@ -2,86 +2,56 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "siteName": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of azure web app"
-      }
-    },
-    "location": {
-      "type": "string",
-      "defaultValue": "Central US",
-      "metadata": {
-        "description": "Location for all resources."
-      }
+    "appName": {
+      "defaultValue": "sjkp-linux",
+      "type": "string"
     }
   },
   "variables": {
-    "hostingPlanName": "[concat(parameters('siteName'), 'serviceplan')]"
+    "servicePlanName": "[concat('serviceplan',uniqueString(resourceGroup().id))]"
   },
   "resources": [
     {
       "type": "Microsoft.Web/serverfarms",
+      "name": "[variables('servicePlanName')]",
+      "apiVersion": "2016-03-01",
+      "location": "[resourceGroup().location]",
       "sku": {
         "name": "S1",
-        "tier": "Standard",
-        "size": "S1",
-        "family": "S",
         "capacity": 1
       },
       "kind": "linux",
-      "name": "[variables('hostingPlanName')]",
-      "apiVersion": "2016-09-01",
-      "location": "[parameters('location')]",
-      "scale": null,
       "properties": {
-        "name": "[variables('hostingPlanName')]",
-        "workerTierName": null,
-        "adminSiteName": null,
-        "hostingEnvironmentProfile": null,
-        "perSiteScaling": false,
+        "workerSizeId": 0,
         "reserved": true,
-        "targetWorkerCount": 0,
-        "targetWorkerSizeId": 0
-      },
-      "dependsOn": []
+        "hostingEnvironment": ""
+      }
     },
     {
       "type": "Microsoft.Web/sites",
-      "kind": "app,linux,container",
-      "name": "[parameters('siteName')]",
-      "apiVersion": "2016-08-01",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]"
-      ],
+      "name": "[parameters('appName')]",
+      "apiVersion": "2016-03-01",
+      "location": "[resourceGroup().location]",
       "properties": {
-        "name": "[parameters('siteName')]",
-        "serverFarmId": "[variables('hostingPlanName')]",
-        "hostingEnvironment": "",
-        "enabled": true,
-        "reserved": true,
-        "cloningInfo": null,
-        "httpsOnly": false
+        "name": "[parameters('appName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]"
       },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]"
+      ],
       "resources": [
         {
-          "apiVersion": "2016-08-01",
+          "name": "containerSettings",
           "type": "config",
-          "name": "congigs",
+          "apiVersion": "2016-03-01",
           "dependsOn": [
-            "[concat('Microsoft.Web/sites/', parameters('siteName'))]"
+            "[resourceId('Microsoft.Web/sites', parameters('appName'))]"
           ],
+          "tags": {
+            "displayName": "appSettings"
+          },
           "properties": {
-            "linuxFxVersion": {
-              "value": "inri13666/azure-php-base:latest"
-            },
-            "httpLoggingEnabled": {
-              "value": true
-            },
-            "alwaysOn": {
-              "value": false
-            }
+            "DOCKER_CUSTOM_IMAGE_NAME": "nginx"
           }
         }
       ]
