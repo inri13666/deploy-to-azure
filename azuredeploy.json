@@ -1,0 +1,478 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "serverfarms_B1_name": {
+      "defaultValue": "B1",
+      "type": "string"
+    },
+    "sites_inri13666_app_first_name": {
+      "defaultValue": "inri13666-app-first",
+      "type": "string"
+    },
+    "config_web_name": {
+      "defaultValue": "web",
+      "type": "string"
+    },
+    "deployments_371553808808629_name": {
+      "defaultValue": "371553808808629",
+      "type": "string"
+    },
+    "deployments_361553723341983_name": {
+      "defaultValue": "361553723341983",
+      "type": "string"
+    },
+    "deployments_351553722659113_name": {
+      "defaultValue": "351553722659113",
+      "type": "string"
+    },
+    "deployments_341553721218275_name": {
+      "defaultValue": "341553721218275",
+      "type": "string"
+    },
+    "deployments_331553721081333_name": {
+      "defaultValue": "331553721081333",
+      "type": "string"
+    },
+    "deployments_2fd8c834c97747ebab4b56c47d154251_name": {
+      "defaultValue": "2fd8c834c97747ebab4b56c47d154251",
+      "type": "string"
+    },
+    "deployments_a0bfe5ead1c94915a5bdba3118f5420b_name": {
+      "defaultValue": "a0bfe5ead1c94915a5bdba3118f5420b",
+      "type": "string"
+    },
+    "deployments_c33c760a8d6849ab8d1d34bb14c960a5_name": {
+      "defaultValue": "c33c760a8d6849ab8d1d34bb14c960a5",
+      "type": "string"
+    },
+    "deployments_74a77d4110094e818ffda0bed451dac1_name": {
+      "defaultValue": "74a77d4110094e818ffda0bed451dac1",
+      "type": "string"
+    },
+    "deployments_ca04b34d85c5409ea0ba17670daa0b04_name": {
+      "defaultValue": "ca04b34d85c5409ea0ba17670daa0b04",
+      "type": "string"
+    },
+    "hostNameBindings_inri13666_app_first.azurewebsites.net_name": {
+      "defaultValue": "inri13666-app-first.azurewebsites.net",
+      "type": "string"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "sku": {
+        "name": "S1",
+        "tier": "Standard",
+        "size": "S1",
+        "family": "S",
+        "capacity": 1
+      },
+      "kind": "linux",
+      "name": "[parameters('serverfarms_B1_name')]",
+      "apiVersion": "2016-09-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "name": "[parameters('serverfarms_B1_name')]",
+        "workerTierName": null,
+        "adminSiteName": null,
+        "hostingEnvironmentProfile": null,
+        "perSiteScaling": false,
+        "reserved": true,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0
+      },
+      "dependsOn": []
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "kind": "app,linux,container",
+      "name": "[parameters('sites_inri13666_app_first_name')]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "enabled": true,
+        "hostNameSslStates": [
+          {
+            "name": "[concat(parameters('sites_inri13666_app_first_name'),'.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "virtualIP": null,
+            "thumbprint": null,
+            "toUpdate": null,
+            "hostType": "Standard"
+          },
+          {
+            "name": "[concat(parameters('sites_inri13666_app_first_name'),'.scm.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "virtualIP": null,
+            "thumbprint": null,
+            "toUpdate": null,
+            "hostType": "Repository"
+          }
+        ],
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_B1_name'))]",
+        "reserved": true,
+        "siteConfig": null,
+        "scmSiteAlsoStopped": false,
+        "hostingEnvironmentProfile": null,
+        "clientAffinityEnabled": true,
+        "clientCertEnabled": false,
+        "hostNamesDisabled": false,
+        "containerSize": 0,
+        "dailyMemoryTimeQuota": 0,
+        "cloningInfo": null,
+        "httpsOnly": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_B1_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/config",
+      "name": "[concat(parameters('sites_inri13666_app_first_name'), '/', parameters('config_web_name'))]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "numberOfWorkers": 1,
+        "defaultDocuments": [
+          "Default.htm",
+          "Default.html",
+          "Default.asp",
+          "index.htm",
+          "index.html",
+          "iisstart.htm",
+          "default.aspx",
+          "index.php",
+          "hostingstart.html"
+        ],
+        "netFrameworkVersion": "v4.0",
+        "phpVersion": "",
+        "pythonVersion": "",
+        "nodeVersion": "",
+        "linuxFxVersion": "DOCKER|inri13666/azure-php-base:latest",
+        "windowsFxVersion": null,
+        "requestTracingEnabled": false,
+        "remoteDebuggingEnabled": false,
+        "remoteDebuggingVersion": "VS2017",
+        "httpLoggingEnabled": true,
+        "logsDirectorySizeLimit": 35,
+        "detailedErrorLoggingEnabled": false,
+        "publishingUsername": "$inri13666-app-first",
+        "publishingPassword": null,
+        "appSettings": null,
+        "azureStorageAccounts": {},
+        "metadata": null,
+        "connectionstrings": null,
+        "machineKey": null,
+        "handlerMappings": null,
+        "documentRoot": null,
+        "scmType": "VSTSRM",
+        "use32BitWorkerProcess": true,
+        "webSocketsEnabled": false,
+        "alwaysOn": false,
+        "javaVersion": null,
+        "javaContainer": null,
+        "javaContainerVersion": null,
+        "appCommandLine": "",
+        "managedPipelineMode": "Integrated",
+        "virtualApplications": [
+          {
+            "virtualPath": "/",
+            "physicalPath": "site\\wwwroot",
+            "preloadEnabled": false,
+            "virtualDirectories": null
+          }
+        ],
+        "winAuthAdminState": 0,
+        "winAuthTenantState": 0,
+        "customAppPoolIdentityAdminState": false,
+        "customAppPoolIdentityTenantState": false,
+        "runtimeADUser": null,
+        "runtimeADUserPassword": null,
+        "loadBalancing": "LeastRequests",
+        "routingRules": [],
+        "experiments": {
+          "rampUpRules": []
+        },
+        "limits": null,
+        "autoHealEnabled": false,
+        "autoHealRules": null,
+        "tracingOptions": null,
+        "vnetName": "",
+        "siteAuthEnabled": false,
+        "siteAuthSettings": {
+          "enabled": null,
+          "unauthenticatedClientAction": null,
+          "tokenStoreEnabled": null,
+          "allowedExternalRedirectUrls": null,
+          "defaultProvider": null,
+          "clientId": null,
+          "clientSecret": null,
+          "clientSecretCertificateThumbprint": null,
+          "issuer": null,
+          "allowedAudiences": null,
+          "additionalLoginParams": null,
+          "isAadAutoProvisioned": false,
+          "googleClientId": null,
+          "googleClientSecret": null,
+          "googleOAuthScopes": null,
+          "facebookAppId": null,
+          "facebookAppSecret": null,
+          "facebookOAuthScopes": null,
+          "twitterConsumerKey": null,
+          "twitterConsumerSecret": null,
+          "microsoftAccountClientId": null,
+          "microsoftAccountClientSecret": null,
+          "microsoftAccountOAuthScopes": null
+        },
+        "cors": null,
+        "push": null,
+        "apiDefinition": null,
+        "autoSwapSlotName": null,
+        "localMySqlEnabled": false,
+        "managedServiceIdentityId": null,
+        "xManagedServiceIdentityId": null,
+        "ipSecurityRestrictions": null,
+        "scmIpSecurityRestrictions": null,
+        "scmIpSecurityRestrictionsUseMain": null,
+        "http20Enabled": false,
+        "minTlsVersion": "1.2",
+        "ftpsState": "AllAllowed",
+        "reservedInstanceCount": 0
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_inri13666_app_first_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "name": "[concat(parameters('sites_inri13666_app_first_name'), '/', parameters('deployments_371553808808629_name'))]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "id": "[parameters('deployments_371553808808629_name')]",
+        "status": 4,
+        "author_email": "",
+        "author": "GitHub",
+        "deployer": "VSTS",
+        "message": "{\"type\":\"Deployment\",\"commitId\":\"91150bf79439a97d0e30269f6a6c3b2930ce6158\",\"buildId\":\"30\",\"releaseId\":\"37\",\"buildNumber\":\"20190328.1\",\"releaseName\":\"Release-23\",\"repoProvider\":\"GitHub\",\"repoName\":\"\",\"collectionUrl\":\"https://dev.azure.com/mesaverde228/\",\"teamProject\":\"4ff46585-bd74-45c5-a35b-612e01a19e8b\",\"slotName\":\"production\"}",
+        "start_time": "2019-03-28T21:33:29.85219Z",
+        "end_time": "2019-03-28T21:33:29.85219Z",
+        "active": true
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_inri13666_app_first_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "name": "[concat(parameters('sites_inri13666_app_first_name'), '/', parameters('deployments_2fd8c834c97747ebab4b56c47d154251_name'))]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "id": "[parameters('deployments_2fd8c834c97747ebab4b56c47d154251_name')]",
+        "status": 4,
+        "author_email": "N/A",
+        "author": "N/A",
+        "deployer": "VSTS_ZIP_DEPLOY",
+        "message": "Created via a push deployment",
+        "start_time": "2019-03-28T21:32:53.34681Z",
+        "end_time": "2019-03-28T21:33:24.277222Z",
+        "active": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_inri13666_app_first_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "name": "[concat(parameters('sites_inri13666_app_first_name'), '/', parameters('deployments_361553723341983_name'))]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "id": "[parameters('deployments_361553723341983_name')]",
+        "status": 4,
+        "author_email": "",
+        "author": "GitHub",
+        "deployer": "VSTS",
+        "message": "{\"type\":\"Deployment\",\"commitId\":\"eee8c1dd528d59e40d35ea73b626ab38d1a7aef6\",\"buildId\":\"29\",\"releaseId\":\"36\",\"buildNumber\":\"20190327.21\",\"releaseName\":\"Release-22\",\"repoProvider\":\"GitHub\",\"repoName\":\"\",\"collectionUrl\":\"https://dev.azure.com/mesaverde228/\",\"teamProject\":\"4ff46585-bd74-45c5-a35b-612e01a19e8b\",\"slotName\":\"production\"}",
+        "start_time": "2019-03-27T21:49:03.00199Z",
+        "end_time": "2019-03-27T21:49:03.00199Z",
+        "active": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_inri13666_app_first_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "name": "[concat(parameters('sites_inri13666_app_first_name'), '/', parameters('deployments_a0bfe5ead1c94915a5bdba3118f5420b_name'))]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "id": "[parameters('deployments_a0bfe5ead1c94915a5bdba3118f5420b_name')]",
+        "status": 4,
+        "author_email": "N/A",
+        "author": "N/A",
+        "deployer": "VSTS_ZIP_DEPLOY",
+        "message": "Created via a push deployment",
+        "start_time": "2019-03-27T21:48:25.903668Z",
+        "end_time": "2019-03-27T21:48:51.644182Z",
+        "active": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_inri13666_app_first_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "name": "[concat(parameters('sites_inri13666_app_first_name'), '/', parameters('deployments_351553722659113_name'))]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "id": "[parameters('deployments_351553722659113_name')]",
+        "status": 4,
+        "author_email": "",
+        "author": "GitHub",
+        "deployer": "VSTS",
+        "message": "{\"type\":\"Deployment\",\"commitId\":\"96f7d5a8e51181e2c34e6b6f44b66e38cad6d7e0\",\"buildId\":\"28\",\"releaseId\":\"35\",\"buildNumber\":\"20190327.20\",\"releaseName\":\"Release-21\",\"repoProvider\":\"GitHub\",\"repoName\":\"\",\"collectionUrl\":\"https://dev.azure.com/mesaverde228/\",\"teamProject\":\"4ff46585-bd74-45c5-a35b-612e01a19e8b\",\"slotName\":\"production\"}",
+        "start_time": "2019-03-27T21:37:40.63921Z",
+        "end_time": "2019-03-27T21:37:40.63921Z",
+        "active": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_inri13666_app_first_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "name": "[concat(parameters('sites_inri13666_app_first_name'), '/', parameters('deployments_c33c760a8d6849ab8d1d34bb14c960a5_name'))]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "id": "[parameters('deployments_c33c760a8d6849ab8d1d34bb14c960a5_name')]",
+        "status": 4,
+        "author_email": "N/A",
+        "author": "N/A",
+        "deployer": "VSTS_ZIP_DEPLOY",
+        "message": "Created via a push deployment",
+        "start_time": "2019-03-27T21:35:57.753432Z",
+        "end_time": "2019-03-27T21:37:33.524082Z",
+        "active": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_inri13666_app_first_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "name": "[concat(parameters('sites_inri13666_app_first_name'), '/', parameters('deployments_341553721218275_name'))]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "id": "[parameters('deployments_341553721218275_name')]",
+        "status": 4,
+        "author_email": "",
+        "author": "GitHub",
+        "deployer": "VSTS",
+        "message": "{\"type\":\"Deployment\",\"commitId\":\"e5eb60e15248e7cfa93b654ea03340cfaa01d510\",\"buildId\":\"27\",\"releaseId\":\"34\",\"buildNumber\":\"20190327.19\",\"releaseName\":\"Release-20\",\"repoProvider\":\"GitHub\",\"repoName\":\"\",\"collectionUrl\":\"https://dev.azure.com/mesaverde228/\",\"teamProject\":\"4ff46585-bd74-45c5-a35b-612e01a19e8b\",\"slotName\":\"production\"}",
+        "start_time": "2019-03-27T21:13:39.401329Z",
+        "end_time": "2019-03-27T21:13:39.401329Z",
+        "active": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_inri13666_app_first_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "name": "[concat(parameters('sites_inri13666_app_first_name'), '/', parameters('deployments_74a77d4110094e818ffda0bed451dac1_name'))]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "id": "[parameters('deployments_74a77d4110094e818ffda0bed451dac1_name')]",
+        "status": 4,
+        "author_email": "N/A",
+        "author": "N/A",
+        "deployer": "VSTS_ZIP_DEPLOY",
+        "message": "Created via a push deployment",
+        "start_time": "2019-03-27T21:13:28.395598Z",
+        "end_time": "2019-03-27T21:13:33.882232Z",
+        "active": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_inri13666_app_first_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "name": "[concat(parameters('sites_inri13666_app_first_name'), '/', parameters('deployments_331553721081333_name'))]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "id": "[parameters('deployments_331553721081333_name')]",
+        "status": 4,
+        "author_email": "",
+        "author": "GitHub",
+        "deployer": "VSTS",
+        "message": "{\"type\":\"Deployment\",\"commitId\":\"316521c7c22a02c60a4959f913c9a46a39b3c810\",\"buildId\":\"26\",\"releaseId\":\"33\",\"buildNumber\":\"20190327.18\",\"releaseName\":\"Release-19\",\"repoProvider\":\"GitHub\",\"repoName\":\"\",\"collectionUrl\":\"https://dev.azure.com/mesaverde228/\",\"teamProject\":\"4ff46585-bd74-45c5-a35b-612e01a19e8b\",\"slotName\":\"production\"}",
+        "start_time": "2019-03-27T21:11:22.322253Z",
+        "end_time": "2019-03-27T21:11:22.322253Z",
+        "active": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_inri13666_app_first_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "name": "[concat(parameters('sites_inri13666_app_first_name'), '/', parameters('deployments_ca04b34d85c5409ea0ba17670daa0b04_name'))]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "id": "[parameters('deployments_ca04b34d85c5409ea0ba17670daa0b04_name')]",
+        "status": 4,
+        "author_email": "N/A",
+        "author": "N/A",
+        "deployer": "VSTS_ZIP_DEPLOY",
+        "message": "Created via a push deployment",
+        "start_time": "2019-03-27T21:11:08.783021Z",
+        "end_time": "2019-03-27T21:11:13.394504Z",
+        "active": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_inri13666_app_first_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/hostNameBindings",
+      "name": "[concat(parameters('sites_inri13666_app_first_name'), '/', parameters('hostNameBindings_inri13666_app_first.azurewebsites.net_name'))]",
+      "apiVersion": "2016-08-01",
+      "location": "Central US",
+      "scale": null,
+      "properties": {
+        "siteName": "inri13666-app-first",
+        "domainId": null,
+        "hostNameType": "Verified"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_inri13666_app_first_name'))]"
+      ]
+    }
+  ]
+}
